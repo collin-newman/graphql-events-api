@@ -45,7 +45,3 @@ test('queries a single app', async (done) => {
         done();
       });
 });
-
-test('It lists all events in an app', async (done) => {
-
-});
