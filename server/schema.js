@@ -7,6 +7,7 @@ const {
   GraphQLNonNull,
 } = require('graphql');
 const data = require('../testing/data.js');
+const _ = require('lodash');
 
 const appType = new GraphQLObjectType({
   name: 'app',
@@ -14,6 +15,19 @@ const appType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLNonNull(GraphQLString) },
     name: { type: GraphQLNonNull(GraphQLString) },
+    events: {
+      type: new GraphQLList(eventType),
+      resolve: (app) => {
+        return data.events.filter(event => event.appId === app.id);
+      }
+    },
+    stages: {
+      type: new GraphQLList(stageType),
+      resolve: (app) => {
+        const events = data.events.filter(event => event.appId === app.id);
+        return _.uniqBy(events, 'stageId');
+      }
+    }
   }),
 });
 
@@ -23,6 +37,10 @@ const stageType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLNonNull(GraphQLString) },
     name: { type: GraphQLNonNull(GraphQLString) },
+    events: {
+      type: new GraphQLList(eventType),
+      resolve: (stage) => (data.events.filter(event => event.stageId === stage.id)),
+    }
   }),
 });
 

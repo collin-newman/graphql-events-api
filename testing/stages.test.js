@@ -62,3 +62,21 @@ test('Finds stages by name', async (done) => {
       done();
     });
 });
+
+test('Lists all events at a given stage', async (done) => {
+  request
+    .post("/graphql")
+    .send({
+      query: "{ stage(id: \"a4087686-ee6c-49d8-a4f0-d67f5931df3a\"){ id, name, events{ id, name }} }",
+    })
+    .set("Accept", "application/json")
+    .expect("Content-Type", /json/)
+    .expect(200)
+    .end(function (err, res) {
+      if (err) return done(err);
+      expect(res.body).toBeInstanceOf(Object);
+      expect(res.body.data.stage.id).toEqual("a4087686-ee6c-49d8-a4f0-d67f5931df3a");
+      expect(res.body.data.stage.events.length).toEqual(2);
+      done();
+    });
+});
