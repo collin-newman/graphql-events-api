@@ -4,6 +4,10 @@ module.exports =
         {
             "id": "b810bf6d-d81d-4104-bc1a-3b21d5154076",
             "name": "HipHopFest 2020"
+        },
+        {
+            "id": "app with no stages or events",
+            "name": "sad festival"
         }
     ],
     "stages": [
