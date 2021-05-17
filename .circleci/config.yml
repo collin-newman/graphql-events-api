@@ -7,6 +7,7 @@ orbs:
   # Orbs reduce the amount of configuration required for common tasks.
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
   node: circleci/node@4.1
+  aws-elastic-beanstalk: circleci/aws-elastic-beanstalk@1.0.2
 
 
 jobs:

@@ -4,7 +4,8 @@
   "description": "Graphql API for events service",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/index.js",
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js",
     "test": "jest --detectOpenHandles"
   },
   "repository": {
