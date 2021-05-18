@@ -6,8 +6,10 @@ const {
   GraphQLList,
   GraphQLNonNull,
 } = require('graphql');
-const data = require('../testing/data.js');
 const _ = require('lodash');
+const { v4: uuidv4 } = require('uuid');
+
+let data = require('../db/data');
 
 const appType = new GraphQLObjectType({
   name: 'app',
@@ -137,6 +139,91 @@ const rootQueryType = new GraphQLObjectType({
   },
 });
 
+const rootMutationType = new GraphQLObjectType({
+  name: "Mutation",
+  description: "root mutation",
+  fields: () => ({
+    addEvent: {
+      type: eventType,
+      description: 'Add a new event.',
+      args: {
+        appId: { type: GraphQLNonNull(GraphQLString) },
+        stageId: { type: GraphQLNonNull(GraphQLString) },
+        name: { type: GraphQLNonNull(GraphQLString) },
+        description: { type: GraphQLNonNull(GraphQLString) },
+        image: { type: GraphQLNonNull(GraphQLString) },
+        startsAt: { type: GraphQLNonNull(GraphQLString) },
+        endsAt: { type: GraphQLNonNull(GraphQLString) },
+      },
+      resolve: (parent, args) => {
+        const { appId, stageId, name, description, image } = args;
+        const event = {
+          id: uuidv4(),
+          appId,
+          stageId,
+          name,
+          description,
+          image,
+          startsAt: new Date(args.startsAt).getTime(),
+          endsAt: new Date(args.endsAt).getTime(),
+        };
+
+      },
+    },
+    addStage: {
+      type: stageType,
+      description: 'Add a new stage.',
+      args: {
+        name: { type: GraphQLNonNull(GraphQLString) },
+      },
+      resolve: (parent, args) => {
+
+      },
+    },
+    deleteEvent: {
+      type: eventType,
+      description: 'Delete an existing event.',
+      args: {
+        name: { type: GraphQLNonNull(GraphQLString) },
+      },
+      resolve: (parent, args) => {
+
+      },
+    },
+    deleteStage: {
+      type: stageType,
+      description: 'Delete an existing stage.',
+      args: {
+        name: { type: GraphQLNonNull(GraphQLString) },
+      },
+      resolve: (parent, args) => {
+
+      },
+    },
+    editEvent: {
+      type: eventType,
+      description: 'Edit an existing event.',
+      args: {
+        name: { type: GraphQLNonNull(GraphQLString) },
+      },
+      resolve: (parent, args) => {
+
+      },
+    },
+    editStage: {
+      type: stageType,
+      description: 'Edit an existing stage.',
+      args: {
+        name: { type: GraphQLNonNull(GraphQLString) },
+      },
+      resolve: (parent, args) => {
+
+      },
+    },
+  }),
+});
+
 module.exports = schema = new GraphQLSchema({
   query: rootQueryType,
+  mutation: rootMutationType,
 });
