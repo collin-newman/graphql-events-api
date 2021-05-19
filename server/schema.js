@@ -10,7 +10,7 @@ const {
 const _ = require('lodash');
 const { v4: uuidv4 } = require('uuid');
 const { getAppById, getApps, setApp } = require('../db/app');
-const { addEvent, getEventById, getEventByName, editEvent, getEvents, getEventsInApp, } = require('../db/event');
+const { addEvent, getEventById, getEventByName, updateEvent, getEvents, getEventsInApp, getEventsAtStage, deleteEvent } = require('../db/event');
 const { getStageById, getStageByName, getStages, addStage, deleteStage, updateStage } = require('../db/stage');
 
 let data = require('../db/data');
@@ -23,12 +23,13 @@ const appType = new GraphQLObjectType({
     name: { type: GraphQLNonNull(GraphQLString) },
     events: {
       type: new GraphQLList(eventType),
-      resolve: (app) => (getEventsInApp(app.id)),
+      resolve: async (app) => (await getEventsInApp(app.id)),
     },
     stages: {
       type: new GraphQLList(stageType),
-      resolve: (app) => {
-        const events = data.events.filter(event => event.appId === app.id);
+      resolve: async (app) => {
+        const events = await getEventsInApp(app.id);
+        console.log(events);
         return _.uniqBy(events, 'stageId');
       },
     },
@@ -43,7 +44,7 @@ const stageType = new GraphQLObjectType({
     name: { type: GraphQLNonNull(GraphQLString) },
     events: {
       type: new GraphQLList(eventType),
-      resolve: (stage) => (data.events.filter(event => event.stageId === stage.id)),
+      resolve: async (stage) => (await getEventsAtStage(stage.id)),
     }
   }),
 });
@@ -93,6 +94,20 @@ const newEventInput = new GraphQLInputObjectType({
   }),
 });
 
+const updateEventType = new GraphQLInputObjectType({
+  name: 'updateEventType',
+  description: 'Update an event',
+  fields: () => ({
+    appId: { type: GraphQLString },
+    stageId: { type: GraphQLString },
+    name: { type: GraphQLString },
+    description: { type: GraphQLString },
+    image: { type: GraphQLString },
+    startsAt: { type: GraphQLString },
+    endsAt: { type: GraphQLString },
+  }),
+});
+
 const rootQueryType = new GraphQLObjectType({
   name: 'Query',
   fields: {
@@ -101,14 +116,14 @@ const rootQueryType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLString },
       },
-      resolve: (_parent, args) => {
+      resolve: async (_parent, args) => {
         console.log('Querying db');
-        return getAppById(args.id);
+        return await getAppById(args.id);
       },
     },
     apps: {
       type: GraphQLList(appType),
-      resolve: () => (getApps()),
+      resolve: async () => (await getApps()),
     },
     stage: {
       type: stageType,
@@ -116,14 +131,14 @@ const rootQueryType = new GraphQLObjectType({
         id: { type: GraphQLString },
         name: { type: GraphQLString },
       },
-      resolve: (_parent, args) => {
-        if (args.id) { return getStageById(args.id); }
-        if (args.name) { return getStageByName(args.name); }
+      resolve: async (_parent, args) => {
+        if (args.id) { return await getStageById(args.id); }
+        if (args.name) { return await getStageByName(args.name); }
       },
     },
     stages: {
       type: GraphQLList(stageType),
-      resolve: () => (getStages()),
+      resolve: async () => (await getStages()),
     },
     event: {
       type: eventType,
@@ -131,9 +146,9 @@ const rootQueryType = new GraphQLObjectType({
         id: { type: GraphQLString },
         name: { type: GraphQLString },
       },
-      resolve: (_parent, args) => {
-        if (args.id) { return getEventById(args.id); }
-        if (args.name) { return getEventByName(args.name); }
+      resolve: async (_parent, args) => {
+        if (args.id) { return await getEventById(args.id); }
+        if (args.name) { return await getEventByName(args.name); }
       },
     },
     events: {
@@ -142,11 +157,11 @@ const rootQueryType = new GraphQLObjectType({
         name: { type: GraphQLString },
         dates: { type: new GraphQLList(GraphQLString) }
       },
-      resolve: (_parent, args) => {
+      resolve: async (_parent, args) => {
         if (args.dates) {
-          return getEvents(args.dates);
+          return await getEvents(args.dates);
         } else {
-          return getEvents();
+          return await getEvents();
         }
       },
     },
@@ -163,8 +178,8 @@ const rootMutationType = new GraphQLObjectType({
       args: {
         stage: { type: GraphQLNonNull(newStageInput) },
       },
-      resolve: (_parent, args) => {
-        return addStage(args.stage);
+      resolve: async (_parent, args) => {
+        return await addStage(args.stage);
       },
     },
     deleteStage: {
@@ -173,7 +188,7 @@ const rootMutationType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLNonNull(GraphQLString) },
       },
-      resolve: (_parent, args) => (deleteStage(args.id)),
+      resolve: async (_parent, args) => (await deleteStage(args.id)),
     },
     updateStage: {
       type: stageType,
@@ -182,7 +197,7 @@ const rootMutationType = new GraphQLObjectType({
         id: { type: GraphQLNonNull(GraphQLString) },
         stage: { type: GraphQLNonNull(newStageInput) },
       },
-      resolve: (_parent, args) => (updateStage(args.id, args.stage)),
+      resolve: async (_parent, args) => (await updateStage(args.id, args.stage)),
     },
     addEvent: {
       type: eventType,
@@ -190,12 +205,29 @@ const rootMutationType = new GraphQLObjectType({
       args: {
         event: { type: GraphQLNonNull(newEventInput) },
       },
-      resolve: (_parent, args) => {
+      resolve: async (_parent, args) => {
         const cleanedEvent = {...args.event};
         cleanedEvent.startsAt = new Date(cleanedEvent.startsAt).getTime();
         cleanedEvent.endsAt = new Date(cleanedEvent.endsAt).getTime();
-        return addEvent(cleanedEvent);
+        return await addEvent(cleanedEvent);
       },
+    },
+    updateEvent: {
+      type: eventType,
+      description: 'Update a stage by passing in an id and new stage object',
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) },
+        event: { type: GraphQLNonNull(updateEventType) },
+      },
+      resolve: async (_parent, args) => (await updateEvent(args.id, args.event)),
+    },
+    deleteEvent: {
+      type: eventType,
+      description: 'Delete an event',
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) },
+      },
+      resolve: async (_parent, args) => (await deleteEvent(args.id)),
     }
   }),
 });

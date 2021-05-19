@@ -62,7 +62,7 @@ const addEvent = async (event) => {
   }
 };
 
-const editEvent = async (id, event) => {
+const updateEvent = async (id, event) => {
   try {
     const options = {
       upsert: true,
@@ -86,12 +86,34 @@ const getEventsInApp = async (appId) => {
   }
 };
 
+const getEventsAtStage = async (stageId) => {
+  try {
+    const eventsAtStage = await Event.find({ stageId, });
+    return eventsAtStage;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+const deleteEvent = async (id) => {
+  try {
+    const deletedEvent = await Event.findByIdAndDelete({ _id: id });
+    return deletedEvent;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
+
 
 module.exports = {
   getEvents,
   getEventById,
   addEvent,
   getEventByName,
-  editEvent,
+  updateEvent,
   getEventsInApp,
+  getEventsAtStage,
+  deleteEvent,
 };
