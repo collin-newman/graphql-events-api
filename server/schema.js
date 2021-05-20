@@ -29,7 +29,6 @@ const appType = new GraphQLObjectType({
       type: new GraphQLList(stageType),
       resolve: async (app) => {
         const events = await getEventsInApp(app.id);
-        console.log(events);
         return _.uniqBy(events, 'stageId');
       },
     },
@@ -124,10 +123,7 @@ const rootQueryType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLString },
       },
-      resolve: async (_parent, args) => {
-        console.log('Querying db');
-        return await getAppById(args.id);
-      },
+      resolve: async (_parent, args) => (await getAppById(args.id)),
     },
     apps: {
       type: GraphQLList(appType),
@@ -166,6 +162,9 @@ const rootQueryType = new GraphQLObjectType({
         dates: { type: new GraphQLList(GraphQLString) }
       },
       resolve: async (_parent, args) => {
+        if (args.dates && args.name) {
+          return await getEvents(args.dates, args.name);
+        }
         if (args.dates) {
           return await getEvents(args.dates);
         } else {

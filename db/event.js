@@ -13,18 +13,25 @@ const eventSchema = new mongoose.Schema({
 
 const Event = mongoose.model('Event', eventSchema);
 
-const getEvents = async (dates = null) => {
+const getEvents = async (dates = null, name = null) => {
   try {
-    if (!dates) {
+    if (!dates && !name) {
       const matchingEvents = Event.find();
       return matchingEvents;
     }
-    const dateRange = {
-      startsAt: { $gte: new Date(dates[0]).getTime() },
-      endsAt: { $lte: new Date(dates[1]).getTime() },
-    };
-    const eventsInDateRange = Event.find(dateRange);
-    return eventsInDateRange;
+    if (dates) {
+      const dateRange = {
+        startsAt: { $gte: new Date(dates[0]).getTime() },
+        endsAt: { $lte: new Date(dates[1]).getTime() },
+      };
+      if (name) {
+        const datesAndName = {...dateRange, name, }
+        const eventsInDateRangeWithName = Event.find(datesAndName);
+        return eventsInDateRangeWithName
+      }
+      const eventsInDateRange = Event.find(dateRange);
+      return eventsInDateRange;
+    }
   } catch (error) {
     console.log(error);
     return [];

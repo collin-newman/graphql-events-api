@@ -2,7 +2,7 @@ module.exports =
 {
     "apps": [
         {
-            "id": "b810bf6d-d81d-4104-bc1a-3b21d5154076",
+            "id": "60a55ec512dd1a2d206dac5b",
             "name": "HipHopFest 2020"
         },
         {
@@ -12,23 +12,23 @@ module.exports =
     ],
     "stages": [
         {
-            "id": "a4087686-ee6c-49d8-a4f0-d67f5931df3a",
+            "id": "60a5422723e4eb297fe2568c",
             "name": "Rizzle Stage"
         },
         {
-            "id": "89be560f-6905-471a-8096-102e29a84e77",
+            "id": "60a5423c23e4eb297fe2568d",
             "name": "Tizzle Stage"
         },
         {
-            "id": "a6bb97dc-224c-4f8f-9af7-fd8b5731840f",
+            "id": "60a698104541eedc027254f1",
             "name": "Fo’shizzle Stage"
         }
     ],
     "events": [
         {
-            "id": "b4781407-da92-475e-8d87-596aee0d7f2d",
-            "appId": "b810bf6d-d81d-4104-bc1a-3b21d5154076",
-            "stageId": "a4087686-ee6c-49d8-a4f0-d67f5931df3a",
+            "id": "60a6984ce281da381e146c19",
+            "appId": "60a55ec512dd1a2d206dac5b",
+            "stageId": "60a5422723e4eb297fe2568c",
             "name": "Kanye West",
             "description": "Kanye Omari West is an American rapper, singer, songwriter, record producer, fashion designer, and entrepreneur.",
             "image": "http://assets.aloompa.com.s3.amazonaws.com/rappers/KanyeWest.jpeg",
@@ -36,9 +36,9 @@ module.exports =
             "endsAt": 1577919600
         },
         {
-            "id": "b471f99a-0942-4e4f-be26-344fe5f7e88d",
-            "appId": "b810bf6d-d81d-4104-bc1a-3b21d5154076",
-            "stageId": "a4087686-ee6c-49d8-a4f0-d67f5931df3a",
+            "id": "60a698a9cba8cd3838606bd9",
+            "appId": "60a55ec512dd1a2d206dac5b",
+            "stageId": "60a5422723e4eb297fe2568c",
             "name": "Drake",
             "description": "Aubrey Drake Graham is a Canadian rapper, singer, songwriter, record producer, actor, and entrepreneur. Drake initially gained recognition as an actor on the teen drama television series Degrassi: The Next Generation in the early 2000s.",
             "image": "http://assets.aloompa.com.s3.amazonaws.com/rappers/Drake.jpeg",
@@ -46,9 +46,9 @@ module.exports =
             "endsAt": 1577923200
         },
         {
-            "id": "0161c438-21ca-4112-a166-91cff2a3e1b3",
-            "appId": "b810bf6d-d81d-4104-bc1a-3b21d5154076",
-            "stageId": "89be560f-6905-471a-8096-102e29a84e77",
+            "id": "60a698e1cba8cd3838606bda",
+            "appId": "60a55ec512dd1a2d206dac5b",
+            "stageId": "60a5423c23e4eb297fe2568d",
             "name": "Kendrick Lamar",
             "description": "Kendrick Lamar Duckworth is an American rapper and songwriter. Raised in Compton, California, Lamar embarked on his musical career as a teenager under the stage name K-Dot, releasing a mixtape that garnered local attention and led to his signing with indie record label Top Dawg Entertainment (TDE)",
             "image": "http://assets.aloompa.com.s3.amazonaws.com/rappers/Kendrick.jpeg",
@@ -56,9 +56,9 @@ module.exports =
             "endsAt": 1577919600
         },
         {
-            "id": "4867d1ca-cabe-485f-aef8-daac15c1f998",
-            "appId": "b810bf6d-d81d-4104-bc1a-3b21d5154076",
-            "stageId": "89be560f-6905-471a-8096-102e29a84e77",
+            "id": "60a69915cba8cd3838606bdb",
+            "appId": "60a55ec512dd1a2d206dac5b",
+            "stageId": "60a5423c23e4eb297fe2568d",
             "name": "Future",
             "description": "Nayvadius DeMun Wilburn, known professionally as Future, is an American rapper, singer, songwriter, and record producer.",
             "image": "http://assets.aloompa.com.s3.amazonaws.com/rappers/Future.jpeg",
@@ -66,9 +66,9 @@ module.exports =
             "endsAt": 1577923200
         },
         {
-            "id": "d4cec773-c287-4efe-aca5-4274accb6656",
-            "appId": "b810bf6d-d81d-4104-bc1a-3b21d5154076",
-            "stageId": "a6bb97dc-224c-4f8f-9af7-fd8b5731840f",
+            "id": "60a6994583fc8d385c91fcec",
+            "appId": "60a55ec512dd1a2d206dac5b",
+            "stageId": "60a698104541eedc027254f1",
             "name": "J. Cole",
             "description": "Jermaine Lamarr Cole, better known by his stage name J. Cole, is an American hip hop recording artist and record producer.",
             "image": "http://assets.aloompa.com.s3.amazonaws.com/rappers/JCole.jpeg",
