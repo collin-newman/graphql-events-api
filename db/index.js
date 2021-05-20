@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-console.log(process.env.TESTING_DB);
-const uri = process.env.TESTING_DB || process.env.PRODUCTION_DB;
+
+const uri = process.env.PRODUCTION_DB || 'mongodb://localhost/testing';
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
