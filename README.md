@@ -3,28 +3,42 @@
 # types:
 
 Apps:
-- appType = {
+- appType =
+```json
+{
   id: { type: GraphQLNonNull(GraphQLString) },
   name: { type: GraphQLNonNull(GraphQLString) },
   events: [eventType],
   stages: [stageType],
 }
-- newAppInput = {
+```
+- newAppInput =
+```json
+{
   name: { type: GraphQLNonNull(GraphQLString) },
 }
+```
 
 Stages:
-- stageType = {
+- stageType =
+```json
+{
   id: { type: GraphQLNonNull(GraphQLString) },
   name: { type: GraphQLNonNull(GraphQLString) },
   events: [eventType],
 }
-- newStageInput = {
+```
+- newStageInput =
+```json
+{
   name: { type: GraphQLNonNull(GraphQLString) },
 }
+```
 
 Events:
-- eventType = {
+- eventType =
+```json
+{
   id: { type: GraphQLNonNull(GraphQLString) },
   appId: { type: GraphQLNonNull(GraphQLString) },
   stageId: { type: GraphQLNonNull(GraphQLString) },
@@ -34,7 +48,10 @@ Events:
   startsAt: { type: GraphQLNonNull(GraphQLFloat) },
   endsAt: { type: GraphQLNonNull(GraphQLFloat) },
 }
-- newEventInput = {
+```
+- newEventInput =
+```json
+{
   appId: { type: GraphQLNonNull(GraphQLString) },
   stageId: { type: GraphQLNonNull(GraphQLString) },
   name: { type: GraphQLNonNull(GraphQLString) },
@@ -43,7 +60,10 @@ Events:
   startsAt: { type: GraphQLNonNull(GraphQLString) },
   endsAt: { type: GraphQLNonNull(GraphQLString) },
 }
-- updateEventType = {
+```
+- updateEventType =
+```json
+{
   appId: { type: GraphQLNonNull(GraphQLString) },
   stageId: { type: GraphQLNonNull(GraphQLString) },
   name: { type: GraphQLNonNull(GraphQLString) },
@@ -52,23 +72,24 @@ Events:
   startsAt: { type: GraphQLNonNull(GraphQLString) },
   endsAt: { type: GraphQLNonNull(GraphQLString) },
 }
+```
 
 
 
 
-Querys
--app (id: String)
--apps ()
--stage (id: String || name: String)
--stages ()
--event (id: String || name: String)
--events (name: String, &&|| Dates: [String, String])
+Querys:
+- app (id: String)
+- apps ()
+- stage (id: String || name: String)
+- stages ()
+- event (id: String || name: String)
+- events (name: String, &&|| Dates: [String, String])
 
 Mutations
--addApp (app: newAppInput)
--addStage (stage: newStageInput)
--deleteStage (id: String)
--updateStage (id: String, stage: newStageInput)
--addEvent (event: newEventInput)
--updateEvent (id: String, event: updateEventType)
--deleteEvent (id: String)
+- addApp (app: newAppInput)
+- addStage (stage: newStageInput)
+- deleteStage (id: String)
+- updateStage (id: String, stage: newStageInput)
+- addEvent (event: newEventInput)
+- updateEvent (id: String, event: updateEventType)
+- deleteEvent (id: String)
