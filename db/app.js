@@ -20,10 +20,9 @@ const getApps = async () => {
 const getAppById = async (id) => {
   try {
     const app = await App.findById(id);
-    console.log('hello app');
     return app;
   } catch (error) {
-    console.log('hello eorror', error);
+    console.log(error);
     return { id: null, name: null };
   }
 };
