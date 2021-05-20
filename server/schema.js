@@ -9,7 +9,7 @@ const {
 } = require('graphql');
 const _ = require('lodash');
 const { v4: uuidv4 } = require('uuid');
-const { getAppById, getApps, setApp } = require('../db/app');
+const { getAppById, getApps, addApp } = require('../db/app');
 const { addEvent, getEventById, getEventByName, updateEvent, getEvents, getEventsInApp, getEventsAtStage, deleteEvent } = require('../db/event');
 const { getStageById, getStageByName, getStages, addStage, deleteStage, updateStage } = require('../db/stage');
 
@@ -33,6 +33,14 @@ const appType = new GraphQLObjectType({
         return _.uniqBy(events, 'stageId');
       },
     },
+  }),
+});
+
+const newAppInput = new GraphQLInputObjectType({
+  name: 'newAppInput',
+  description: 'newAppInput definition.',
+  fields: () => ({
+    name: { type: GraphQLNonNull(GraphQLString) },
   }),
 });
 
@@ -172,6 +180,14 @@ const rootMutationType = new GraphQLObjectType({
   name: 'Mutation',
   description: 'root mutation',
   fields: () => ({
+    addApp: {
+      type: appType,
+      description: 'Add a new app.',
+      args: {
+        app: { type: newAppInput },
+      },
+      resolve: async (_parent, args) => (await addApp(args.app)),
+    },
     addStage: {
       type: stageType,
       description: 'Add a new stage.',

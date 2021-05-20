@@ -1,8 +1,12 @@
 const mongoose = require('mongoose');
-
-mongoose.connect('mongodb://localhost/events', {
+require('dotenv').config();
+console.log(process.env.TESTING_DB);
+const uri = process.env.TESTING_DB || process.env.PRODUCTION_DB;
+mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
 });
 
 const db = mongoose.connection;

@@ -28,7 +28,7 @@ const getAppById = async (id) => {
   }
 };
 
-const setApp = async (app) => {
+const addApp = async (app) => {
   const newApp = new App(app);
   try {
     const savedApp = newApp.save();
@@ -43,5 +43,5 @@ const setApp = async (app) => {
 module.exports = {
   getAppById,
   getApps,
-  setApp,
-}
+  addApp,
+};
