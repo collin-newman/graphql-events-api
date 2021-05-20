@@ -1,5 +1,6 @@
 const supertest = require('supertest');
 const app = require("../server/server");
+const db = require('../db/index');
 let request;
 let server;
 
@@ -10,6 +11,11 @@ beforeEach((done) => {
 
 afterEach((done) => {
   server.close(done);
+});
+
+afterAll(() => {
+  console.log('Closing db connection');
+  db.close();
 });
 
 test("fetch all events", async (done) => {
@@ -33,7 +39,7 @@ test('queries a single event', async (done) => {
   request
     .post("/graphql")
     .send({
-      query: "{ event(id: \"b4781407-da92-475e-8d87-596aee0d7f2d\"){ id, name} }",
+      query: "{ event(id: \"60a6984ce281da381e146c19\"){ id, name} }",
     })
     .set("Accept", "eventlication/json")
     .expect("Content-Type", /json/)
@@ -41,7 +47,7 @@ test('queries a single event', async (done) => {
     .end(function (err, res) {
       if (err) return done(err);
       expect(res.body).toBeInstanceOf(Object);
-      expect(res.body.data.event.id).toEqual("b4781407-da92-475e-8d87-596aee0d7f2d");
+      expect(res.body.data.event.id).toEqual("60a6984ce281da381e146c19");
       done();
     });
 });
@@ -67,7 +73,7 @@ test('Finds events between a specified date range', async (done) => {
   request
     .post("/graphql")
     .send({
-      query: "{ events(dates: [\"01/01/1960\", \"01/20/1970\"]){ id, name} }",
+      query: "{ events(dates: [\"01/01/1960\", \"01/20/2020\"]){ id, name} }",
     })
     .set("Accept", "application/json")
     .expect("Content-Type", /json/)
@@ -84,7 +90,7 @@ test('Finds events for a given event name between a specified date range', async
   request
     .post("/graphql")
     .send({
-      query: "{ events(name: \"Kanye West\", dates: [\"01/01/1960\", \"01/20/1970\"]){ id, name} }",
+      query: "{ events(name: \"Kanye West\", dates: [\"01/01/1960\", \"01/20/2020\"]){ id, name} }",
     })
     .set("Accept", "application/json")
     .expect("Content-Type", /json/)

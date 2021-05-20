@@ -1,5 +1,6 @@
 const supertest = require('supertest');
 const app = require("../server/server");
+const db = require('../db/index');
 let request;
 let server;
 
@@ -10,6 +11,11 @@ beforeEach((done) => {
 
 afterEach((done) => {
   server.close(done);
+});
+
+afterAll(() => {
+  console.log('Closing db connection');
+  db.close();
 });
 
 test("fetch all stages", async (done) => {
@@ -33,7 +39,7 @@ test('queries a single stage', async (done) => {
   request
     .post("/graphql")
     .send({
-      query: "{ stage(id: \"a4087686-ee6c-49d8-a4f0-d67f5931df3a\"){ id, name} }",
+      query: "{ stage(id: \"60a5422723e4eb297fe2568c\"){ id, name} }",
     })
     .set("Accept", "stagelication/json")
     .expect("Content-Type", /json/)
@@ -41,16 +47,16 @@ test('queries a single stage', async (done) => {
     .end(function (err, res) {
       if (err) return done(err);
       expect(res.body).toBeInstanceOf(Object);
-      expect(res.body.data.stage.id).toEqual("a4087686-ee6c-49d8-a4f0-d67f5931df3a");
+      expect(res.body.data.stage.id).toEqual("60a5422723e4eb297fe2568c");
       done();
     });
 });
 
-test('Finds stages by name', async (done) => {
+test('Finds stage by name', async (done) => {
   request
     .post("/graphql")
     .send({
-      query: "{ stages(name: \"Tizzle Stage\"){ id, name} }",
+      query: "{ stage(name: \"Tizzle Stage\"){ id, name} }",
     })
     .set("Accept", "application/json")
     .expect("Content-Type", /json/)
@@ -58,7 +64,7 @@ test('Finds stages by name', async (done) => {
     .end(function (err, res) {
       if (err) return done(err);
       expect(res.body).toBeInstanceOf(Object);
-      expect(res.body.data.stages[0].name).toEqual("Tizzle Stage");
+      expect(res.body.data.stage.name).toEqual("Tizzle Stage");
       done();
     });
 });
@@ -67,7 +73,7 @@ test('Lists all events at a given stage', async (done) => {
   request
     .post("/graphql")
     .send({
-      query: "{ stage(id: \"a4087686-ee6c-49d8-a4f0-d67f5931df3a\"){ id, name, events{ id, name }} }",
+      query: "{ stage(id: \"60a5422723e4eb297fe2568c\"){ id, name, events{ id, name }} }",
     })
     .set("Accept", "application/json")
     .expect("Content-Type", /json/)
@@ -75,7 +81,7 @@ test('Lists all events at a given stage', async (done) => {
     .end(function (err, res) {
       if (err) return done(err);
       expect(res.body).toBeInstanceOf(Object);
-      expect(res.body.data.stage.id).toEqual("a4087686-ee6c-49d8-a4f0-d67f5931df3a");
+      expect(res.body.data.stage.id).toEqual("60a5422723e4eb297fe2568c");
       expect(res.body.data.stage.events.length).toEqual(2);
       done();
     });
