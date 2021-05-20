@@ -4,23 +4,23 @@
 
 Apps:
 - appType = {
-  name: String,
-  id: String,
+  id: { type: GraphQLNonNull(GraphQLString) },
+  name: { type: GraphQLNonNull(GraphQLString) },
   events: [eventType],
   stages: [stageType],
 }
 - newAppInput = {
-  name: String,
+  name: { type: GraphQLNonNull(GraphQLString) },
 }
 
 Stages:
 - stageType = {
-  id: String,
-  name: String,
+  id: { type: GraphQLNonNull(GraphQLString) },
+  name: { type: GraphQLNonNull(GraphQLString) },
   events: [eventType],
 }
 - newStageInput = {
-  name: String,
+  name: { type: GraphQLNonNull(GraphQLString) },
 }
 
 Events:
@@ -43,7 +43,15 @@ Events:
   startsAt: { type: GraphQLNonNull(GraphQLString) },
   endsAt: { type: GraphQLNonNull(GraphQLString) },
 }
-- updateEventType
+- updateEventType = {
+  appId: { type: GraphQLNonNull(GraphQLString) },
+  stageId: { type: GraphQLNonNull(GraphQLString) },
+  name: { type: GraphQLNonNull(GraphQLString) },
+  description: { type: GraphQLNonNull(GraphQLString) },
+  image: { type: GraphQLNonNull(GraphQLString) },
+  startsAt: { type: GraphQLNonNull(GraphQLString) },
+  endsAt: { type: GraphQLNonNull(GraphQLString) },
+}
 
 
 
