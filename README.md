@@ -83,7 +83,7 @@ Querys:
 - stage (id: String || name: String)
 - stages ()
 - event (id: String || name: String)
-- events (name: String, &&|| Dates: [String, String])
+- events (name: String, and/or Dates: ["MM/DD/YYYY", "MM/DD/YYYY"])
 
 Mutations
 - addApp (app: newAppInput)
