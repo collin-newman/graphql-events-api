@@ -4,7 +4,7 @@
 
 Apps:
 - appType =
-```json
+```javascript
 {
   id: { type: GraphQLNonNull(GraphQLString) },
   name: { type: GraphQLNonNull(GraphQLString) },
@@ -13,7 +13,7 @@ Apps:
 }
 ```
 - newAppInput =
-```json
+```javascript
 {
   name: { type: GraphQLNonNull(GraphQLString) },
 }
@@ -21,7 +21,7 @@ Apps:
 
 Stages:
 - stageType =
-```json
+```javascript
 {
   id: { type: GraphQLNonNull(GraphQLString) },
   name: { type: GraphQLNonNull(GraphQLString) },
@@ -29,7 +29,7 @@ Stages:
 }
 ```
 - newStageInput =
-```json
+```javascript
 {
   name: { type: GraphQLNonNull(GraphQLString) },
 }
@@ -37,7 +37,7 @@ Stages:
 
 Events:
 - eventType =
-```json
+```javascript
 {
   id: { type: GraphQLNonNull(GraphQLString) },
   appId: { type: GraphQLNonNull(GraphQLString) },
@@ -50,7 +50,7 @@ Events:
 }
 ```
 - newEventInput =
-```json
+```javascript
 {
   appId: { type: GraphQLNonNull(GraphQLString) },
   stageId: { type: GraphQLNonNull(GraphQLString) },
@@ -62,7 +62,7 @@ Events:
 }
 ```
 - updateEventType =
-```json
+```javascript
 {
   appId: { type: GraphQLNonNull(GraphQLString) },
   stageId: { type: GraphQLNonNull(GraphQLString) },
