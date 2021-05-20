@@ -13,8 +13,6 @@ const { getAppById, getApps, addApp } = require('../db/app');
 const { addEvent, getEventById, getEventByName, updateEvent, getEvents, getEventsInApp, getEventsAtStage, deleteEvent } = require('../db/event');
 const { getStageById, getStageByName, getStages, addStage, deleteStage, updateStage } = require('../db/stage');
 
-let data = require('../db/data');
-
 const appType = new GraphQLObjectType({
   name: 'app',
   description: 'Details about an app',
@@ -78,11 +76,11 @@ const eventType = new GraphQLObjectType({
     endsAt: { type: GraphQLNonNull(GraphQLFloat) },
     app: {
       type: appType,
-      resolve: (event) => (data.apps.find(app => app.id === event.appId)),
+      resolve: async (event) => (await getAppById(event.appId)),
     },
     stage: {
       type: stageType,
-      resolve: (event) => (data.stages.find(stage => stage.id === event.stageId)),
+      resolve: async (event) => (await getStageById(event.stageId)),
     },
   }),
 });
